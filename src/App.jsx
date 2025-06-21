@@ -29,11 +29,6 @@ function App() {
   const handleSubmit = async () => {
     const tgUser = WebApp.initDataUnsafe?.user;
 
-    if (!tgUser) {
-      alert("❗ Telegram foydalanuvchisi aniqlanmadi");
-      return;
-    }
-
     const payload = {
       telegram_id: tgUser.id,
       full_name: form.full_name,
