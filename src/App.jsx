@@ -1,8 +1,7 @@
 /** @format */
-
 import { useEffect, useState } from "react";
 import WebApp from "@twa-dev/sdk";
-import "./App.css"; // 🎨 CSS faylni ulaymiz
+import "./App.css";
 
 function App() {
   const [form, setForm] = useState({
@@ -14,91 +13,60 @@ function App() {
     phone: "",
   });
 
+  const [initData, setInitData] = useState("");
+
   useEffect(() => {
-    WebApp.ready(); // 📲 Telegram WebApp’ni ishga tayyorlaydi
-    console.log("Telegram foydalanuvchisi:", WebApp.initDataUnsafe?.user);
+    WebApp.ready();
+    console.log("✅ initDataUnsafe:", WebApp.initDataUnsafe?.user);
+    console.log("✅ initData:", WebApp.initData);
+    setInitData(WebApp.initData);
   }, []);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    const tgUser = WebApp.initDataUnsafe?.user;
+    if (!initData) {
+      alert("❗ Iltimos, Telegram WebApp tugmasi orqali kiring.");
+      return;
+    }
 
     const payload = {
-      telegram_id: tgUser.id,
-      full_name: form.full_name,
-      age: form.age,
-      grade: form.grade,
-      region: form.region,
-      district: form.district,
-      phone: form.phone,
+      initData,
+      ...form,
     };
 
     try {
-      const response = await fetch("http://localhost:8000/register", {
+      const res = await fetch("https://YOUR_BACKEND_URL.com/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
-        alert("✅ Ro'yxatdan muvaffaqiyatli o'tdingiz!");
-        WebApp.close(); // 🔐 Telegram oynasini yopadi
-      } else {
-        alert("❌ Serverda xatolik. Keyinroq urinib ko‘ring.");
-      }
-    } catch (error) {
-      console.error("Xatolik:", error);
-      alert("❌ Ulanishda muammo.");
+      const data = await res.json();
+      alert(data.message);
+      if (data.status === "success") WebApp.close();
+    } catch (err) {
+      console.error("❌ Xatolik:", err);
+      alert("Ulanishda muammo.");
     }
   };
 
   return (
     <div className="container">
       <h2>Ro'yxatdan o'tish</h2>
-
-      <input
-        className="input"
-        name="full_name"
-        placeholder="Ism Familiya"
-        onChange={handleChange}
-      />
-      <input
-        className="input"
-        name="age"
-        type="number"
-        placeholder="Yosh"
-        onChange={handleChange}
-      />
-      <input
-        className="input"
-        name="grade"
-        placeholder="Sinf (masalan: 9)"
-        onChange={handleChange}
-      />
-      <input
-        className="input"
-        name="region"
-        placeholder="Viloyat"
-        onChange={handleChange}
-      />
-      <input
-        className="input"
-        name="district"
-        placeholder="Shahar / Tuman"
-        onChange={handleChange}
-      />
-      <input
-        className="input"
-        name="phone"
-        placeholder="Telefon raqam"
-        onChange={handleChange}
-      />
+      {Object.entries(form).map(([key, val]) => (
+        <input
+          key={key}
+          name={key}
+          type={["age", "phone"].includes(key) ? "number" : "text"}
+          placeholder={key.replace("_", " ").toUpperCase()}
+          value={val}
+          onChange={handleChange}
+          className="input"
+        />
+      ))}
       <button className="button" onClick={handleSubmit}>
         ✅ Yuborish
       </button>
