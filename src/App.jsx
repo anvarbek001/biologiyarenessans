@@ -3,36 +3,25 @@ import { useEffect, useState } from "react";
 import WebApp from "@twa-dev/sdk";
 import "./App.css";
 
-
-const telegram = window.Telegram.WebApp
-
 function App() {
-  const [form, setForm] = useState({
-    full_name: "",
-    age: "",
-    grade: "",
-    region: "",
-    district: "",
-    phone: "",
-  });
-
+  const [fullName, setFullName] = useState("");
+  const [age, setAge] = useState("");
+  const [grade, setGrade] = useState("");
+  const [region, setRegion] = useState("");
+  const [district, setDistrict] = useState("");
+  const [phone, setPhone] = useState("");
   const [initData, setInitData] = useState("");
 
   useEffect(() => {
     WebApp.ready();
-
     const safeInit = WebApp.initData;
-    const unsafeInit = WebApp.initDataUnsafe?.query_id; // fallback
+    const unsafeInit = WebApp.initDataUnsafe?.query_id;
 
     console.log("✅ INIT DATA:", safeInit);
     console.log("🧠 INIT UNSAFE:", WebApp.initDataUnsafe);
 
     setInitData(safeInit || unsafeInit || "");
   }, []);
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async () => {
     if (!initData) {
@@ -42,7 +31,12 @@ function App() {
 
     const payload = {
       initData,
-      ...form,
+      full_name: fullName,
+      age,
+      grade,
+      region,
+      district,
+      phone,
     };
 
     try {
@@ -64,17 +58,56 @@ function App() {
   return (
     <div className="container">
       <h2>Ro'yxatdan o'tish</h2>
-      {Object.entries(form).map(([key, val]) => (
-        <input
-          key={key}
-          name={key}
-          type={["age", "phone"].includes(key) ? "number" : "text"}
-          placeholder={key.replace("_", " ").toUpperCase()}
-          value={val}
-          onChange={handleChange}
-          className="input"
-        />
-      ))}
+
+      <input
+        name="full_name"
+        type="text"
+        placeholder="FULL NAME"
+        value={fullName}
+        onChange={(e) => setFullName(e.target.value)}
+        className="input"
+      />
+      <input
+        name="age"
+        type="number"
+        placeholder="AGE"
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
+        className="input"
+      />
+      <input
+        name="grade"
+        type="text"
+        placeholder="GRADE"
+        value={grade}
+        onChange={(e) => setGrade(e.target.value)}
+        className="input"
+      />
+      <input
+        name="region"
+        type="text"
+        placeholder="REGION"
+        value={region}
+        onChange={(e) => setRegion(e.target.value)}
+        className="input"
+      />
+      <input
+        name="district"
+        type="text"
+        placeholder="DISTRICT"
+        value={district}
+        onChange={(e) => setDistrict(e.target.value)}
+        className="input"
+      />
+      <input
+        name="phone"
+        type="number"
+        placeholder="PHONE"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        className="input"
+      />
+
       <button className="button" onClick={handleSubmit}>
         ✅ Yuborish
       </button>
