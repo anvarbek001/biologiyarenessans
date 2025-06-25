@@ -17,8 +17,6 @@ function App() {
 
   useEffect(() => {
     WebApp.ready();
-    console.log("✅ initDataUnsafe:", WebApp.initDataUnsafe?.user);
-    console.log("✅ initData:", WebApp.initData);
     setInitData(WebApp.initData);
   }, []);
 
@@ -38,7 +36,7 @@ function App() {
     };
 
     try {
-      const res = await fetch("https://YOUR_BACKEND_URL.com/register", {
+      const res = await fetch("/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -49,7 +47,7 @@ function App() {
       if (data.status === "success") WebApp.close();
     } catch (err) {
       console.error("❌ Xatolik:", err);
-      alert("Ulanishda muammo.");
+      alert("Serverga ulanishda xatolik.");
     }
   };
 
