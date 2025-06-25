@@ -17,8 +17,14 @@ function App() {
 
   useEffect(() => {
     WebApp.ready();
-    setInitData(WebApp.initData);
-    console.log("✅ Telegram initData:", WebApp.initData); // tekshirish uchun
+
+    const safeInit = WebApp.initData;
+    const unsafeInit = WebApp.initDataUnsafe?.query_id; // fallback
+
+    console.log("✅ INIT DATA:", safeInit);
+    console.log("🧠 INIT UNSAFE:", WebApp.initDataUnsafe);
+
+    setInitData(safeInit || unsafeInit || "");
   }, []);
 
   const handleChange = (e) => {
@@ -47,7 +53,7 @@ function App() {
       alert(data.message);
       if (data.status === "success") WebApp.close();
     } catch (err) {
-      console.error("❌ Xatolik:", err);
+      console.error("❌ Server xatosi:", err);
       alert("Serverga ulanishda xatolik.");
     }
   };
