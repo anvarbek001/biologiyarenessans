@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import WebApp from "@twa-dev/sdk";
 import "./App.css";
 
+
+const telegram = window.Telegram.WebApp
+
 function App() {
   const [form, setForm] = useState({
     full_name: "",
