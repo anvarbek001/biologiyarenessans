@@ -18,6 +18,7 @@ function App() {
   useEffect(() => {
     WebApp.ready();
     setInitData(WebApp.initData);
+    console.log("✅ Telegram initData:", WebApp.initData); // tekshirish uchun
   }, []);
 
   const handleChange = (e) => {
@@ -36,7 +37,8 @@ function App() {
     };
 
     try {
-      const res = await fetch("/register", {
+      const res = await fetch("http://localhost:3000/register", {
+        // ⬆️ ← bu yerga backend URLingizni yozing (deploy qilsangiz, shu URLni o‘zgartirasiz)
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
