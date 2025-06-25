@@ -37,8 +37,7 @@ function App() {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/register", {
-        // ⬆️ ← bu yerga backend URLingizni yozing (deploy qilsangiz, shu URLni o‘zgartirasiz)
+      const res = await fetch("https://webappbot-ozlh.onrender.com/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
