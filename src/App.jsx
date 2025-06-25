@@ -62,7 +62,7 @@ function App() {
       <input
         name="full_name"
         type="text"
-        placeholder="FULL NAME"
+        placeholder="Ism Familiya"
         value={fullName}
         onChange={(e) => setFullName(e.target.value)}
         className="input"
@@ -70,15 +70,15 @@ function App() {
       <input
         name="age"
         type="number"
-        placeholder="AGE"
+        placeholder="Yosh"
         value={age}
         onChange={(e) => setAge(e.target.value)}
         className="input"
       />
       <input
         name="grade"
-        type="text"
-        placeholder="GRADE"
+        type="number"
+        placeholder="Sinf"
         value={grade}
         onChange={(e) => setGrade(e.target.value)}
         className="input"
@@ -86,7 +86,7 @@ function App() {
       <input
         name="region"
         type="text"
-        placeholder="REGION"
+        placeholder="Viloyat"
         value={region}
         onChange={(e) => setRegion(e.target.value)}
         className="input"
@@ -94,7 +94,7 @@ function App() {
       <input
         name="district"
         type="text"
-        placeholder="DISTRICT"
+        placeholder="Tuman/Shaxar"
         value={district}
         onChange={(e) => setDistrict(e.target.value)}
         className="input"
@@ -102,7 +102,7 @@ function App() {
       <input
         name="phone"
         type="number"
-        placeholder="PHONE"
+        placeholder="Telefon raqam"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
         className="input"
